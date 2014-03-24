@@ -1,15 +1,16 @@
 //
-//  NSValue+CGPoint.m
+//  NSValue+CGElements.m
 //  MultiTouchKit
 //
 //  Created by Simon Voelker on 24.03.14.
 //  Copyright (c) 2014 i10. All rights reserved.
 //
 
-#import "NSValue+CGPoint.h"
+#import "NSValue+CGElements.h"
 
 @implementation NSValue (CGElements)
-+(instancetype)CGVectorValue:(CGVector)vector
+
++(instancetype)valueWithCGVector:(CGVector)vector
 {
     return [NSValue value:&vector withObjCType:@encode(CGVector)];
 }
@@ -21,26 +22,28 @@
     [self getValue:&vector];
     return vector;
 }
-#ifdef TARGET_OS_IPHONE
 
+#if TARGET_OS_IPHONE
 #else
-+(instancetype)CGPointValue:(CGPoint)point
++(instancetype)valueWithCGPoint:(CGPoint)point
 {
-    return [NSValue valueWithPoint:point];
+     return [NSValue value:&point withObjCType:@encode(CGPoint)];
 }
-+(instancetype)CGSizeValue:(CGSize)size
++(instancetype)valueWithCGSize:(CGSize)size
 {
     return [NSValue value:&size withObjCType:@encode(CGSize)];
-
+    
 }
-+(instancetype)CGRectValue:(CGRect)rect
++(instancetype)valueWithCGRect:(CGRect)rect
 {
-     return [NSValue value:&rect withObjCType:@encode(CGRect)];
+    return [NSValue value:&rect withObjCType:@encode(CGRect)];
 }
 
 - (CGPoint)CGPointValue
 {
-    return [self pointValue];
+    CGPoint point;
+    [self getValue:&point];
+    return point;
 }
 - (CGSize)CGSizeValue
 {
