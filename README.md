@@ -8,7 +8,7 @@ MultiTouchSpriteKit is a collection of extensions for Apple's SpriteKit framewor
  
 
 ### SKNode+MTKTransform
-This category allows to directly manipulated SKNodes with up to two touch points.
+This category allows to directly manipulated SKNodes with up to two touch points. (Multi-touch support will follow shortly)
 
 ```
 -(void)transformWithUITouches:(NSSet *)touches;
