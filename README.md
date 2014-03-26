@@ -1,7 +1,7 @@
 MultiTouchSpriteKit
 ===================
 
-MultiTouchSpriteKit is a collection of extensions for Apple's SpriteKit framework. Created by [Simon Voelker](mailto: Tistorm@mail.com) and Moritz Wittenhagen.
+MultiTouchSpriteKit is a collection of extensions for Apple's SpriteKit framework. Created by [Simon Voelker](mailto: Tistorm@mail.com) supported by Moritz Wittenhagen.
 
  Additional extensions will follow in the next couple of weeks.
 
