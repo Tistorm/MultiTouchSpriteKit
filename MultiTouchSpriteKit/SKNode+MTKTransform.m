@@ -138,15 +138,15 @@
         endNode = [self rootScene];
     }
     
-    if (startNode != self.parent)
+    if (endNode != self.parent)
     {
         firstEndPoint = [endNode convertPoint: firstEndPoint toNode:self.parent];
        secondEndPoint  = [endNode convertPoint: secondEndPoint toNode:self.parent];
     }
-    if (endNode != self.parent)
+    if ( startNode != self.parent)
     {
-        firstStartPoint = [startNode convertPoint:   firstStartPoint toNode:self.parent];
-        secondStartPoint = [startNode convertPoint:  secondStartPoint toNode:self.parent];
+        firstStartPoint = [self.parent convertPoint:   firstStartPoint fromNode:startNode];
+        secondStartPoint = [self.parent convertPoint:  secondStartPoint fromNode:startNode];
     }
     
     
