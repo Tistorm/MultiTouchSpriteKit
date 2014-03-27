@@ -206,7 +206,6 @@ typedef NS_ENUM(NSUInteger, MTKTransformationType) {
                        [SKAction scaleXTo:[[values objectForKey:@"scale"] CGSizeValue].width y:[[values objectForKey:@"scale"]CGSizeValue].height duration:self.duration],
                        [SKAction rotateToAngle:[[values objectForKey:@"angle"] floatValue] duration:self.duration shortestUnitArc:YES],
                        [SKAction moveTo:[[values objectForKey:@"position"] CGPointValue] duration:self.duration]]]];
-    NSLog(@"%f",[[values objectForKey:@"angle"] floatValue]);
     
 }
 // ------------------------------------------------------

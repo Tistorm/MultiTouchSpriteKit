@@ -150,6 +150,9 @@
     }
     
     
+ //float xScaleFactor = (firstEndPoint.x - secondEndPoint.x)/(firstStartPoint.x - secondStartPoint.x);
+   // float yScaleFactor = (firstEndPoint.y - secondEndPoint.y) /(firstStartPoint.y - secondStartPoint.y);
+    
     float relativeScaleFactor =  MTKPointDistanceBetweenPoints(firstEndPoint,secondEndPoint)/ MTKPointDistanceBetweenPoints(firstStartPoint, secondStartPoint);
     
     if (!(self.transformationConstraints & (MTKNoteScalabe | MTKNoteTransformable)))
