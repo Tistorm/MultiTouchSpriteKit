@@ -99,11 +99,12 @@ MTKAction  is a custom SKAction class that allows to execute custom code before,
 
 
 
-@interface MTKTransformAction : MTKAction
+@interface MTKTransformationAction : MTKAction
 
-+ (MTKTransformAction *)transformForm:(NSArray*)startPoints to:(NSArray*)endPoints  duration:(NSTimeInterval)sec;
++(MTKTransformationAction *)transformFromScenePoints:(NSArray*)startPoints toScenePoints:(NSArray*)endPoints  duration:(NSTimeInterval)sec;
++(MTKTransformationAction *)transformToSprite:(SKSpriteNode*)sprite duration:(NSTimeInterval)sec;
++(MTKTransformationAction *)transformToRect:(CGRect)rect inSprite:(SKSpriteNode*)sprite duration:(NSTimeInterval)sec;
 
--(id)initTransformationActionFromPoints:(NSArray*)startPoints inCoordinatesOfNode:(SKNode*)startNode toPoints:(NSArray*)endPoints inCoordinatesOfNode:(SKNode*)endNode andDuration:(NSTimeInterval)duration;
 
 @end
 

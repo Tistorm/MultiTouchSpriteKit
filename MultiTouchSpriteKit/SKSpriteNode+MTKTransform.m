@@ -39,6 +39,10 @@
 
 -(NSDictionary*)calculateTransformationToRect:(CGRect)rect inSprite:(SKSpriteNode*)sprite
 {
+    if (CGRectIsEmpty(rect))
+    {
+        return [self calculateTransformationToSprite:sprite];
+    }
     CGPoint firstStartPoint = CGPointMake(0, 0);
     CGPoint secondStartPoint = CGPointMake([self originalSize].width, [self originalSize].height);
     
