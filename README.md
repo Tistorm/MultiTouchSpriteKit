@@ -1,14 +1,13 @@
 MultiTouchSpriteKit
 ===================
 
-MultiTouchSpriteKit is a collection of extensions for Apple's SpriteKit framework. Created by [Simon Voelker](mailto: Tistorm@mail.com) supported by Moritz Wittenhagen.
+MultiTouchSpriteKit is a collection of extensions for Apple's SpriteKit framework. Created by [Simon Voelker](mailto: Tistorm@mail.com), with support by Moritz Wittenhagen.
 
  Additional extensions will follow in the next couple of weeks.
 
- 
 
 ### SKNode+MTKTransform
-This category allows to directly manipulated SKNodes with up to two touch points. (Multi-touch support will follow shortly)
+This category allows to directly manipulated SKNodes with up to two touch points.
 
 ```
 -(void)transformWithUITouches:(NSSet *)touches;
@@ -76,7 +75,25 @@ MyCustomMoveAction* myAction = [MyCustomMoveAction alloc] initWithDuration:4];
 [myNode runAction:myAction.skAction];
   ```
  
+###MTKTransformationAction
 
+This class is a subclass of MTKAction which animates the transformation from the SKNode+MTKTransform category.
+
+```
++(MTKTransformationAction *)transformFromScenePoints:(NSArray*)startPoints toScenePoints:(NSArray*)endPoints  duration:(NSTimeInterval)sec;
+
+```
+This class methods  returns a MTKAction that transforms the node such that the relative position of the node to the endPoints is the same as it was to the startPoints. This methods currently uses two points.
+
+```
++(MTKTransformationAction *)transformToSprite:(SKSpriteNode*)sprite duration:(NSTimeInterval)sec;
+```
+This class method return a MTKAction that transforms a SKSpriteNode to the same location, rotation and scale of a other SKSpriteNode.
+
+```
++(MTKTransformationAction *)transformToRect:(CGRect)rect inSprite:(SKSpriteNode*)sprite duration:(NSTimeInterval)sec;
+```
+This class method return a MTKAction that transforms a SKSpriteNode to a Rect in the coordinate system of a other SKSpriteNode.
 
 
 
@@ -95,4 +112,7 @@ CGPoint MTKPointVectorBetweenPoints(CGPoint start, CGPoint end);
 ### NSValue+CGElements
 This category extends the NSValue class to store CGPoint, CGSize, and CGRect on Mac OS with the same method names as on iOS.
 
+
+### MTKDemo
+In the demo project you can easier test the direct manipulation functionality by transform the Spaceship using one or two fingers. Or you can test the MTKTransformationAction by pressing on the gray rectangles to transform the Spaceship to these positions.
 
