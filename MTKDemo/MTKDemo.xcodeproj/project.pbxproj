@@ -30,6 +30,7 @@
 		AD4DD46818E2F2FD00094C91 /* MTKUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4DD46218E2F2FD00094C91 /* MTKUtil.m */; };
 		AD4DD46918E2F2FD00094C91 /* NSValue+CGElements.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4DD46418E2F2FD00094C91 /* NSValue+CGElements.m */; };
 		AD4DD46A18E2F2FD00094C91 /* SKNode+MTKTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4DD46618E2F2FD00094C91 /* SKNode+MTKTransform.m */; };
+		ADC362FC18E8B07500A1BF15 /* MTKShapeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC362FB18E8B07500A1BF15 /* MTKShapeNode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,8 @@
 		AD4DD46418E2F2FD00094C91 /* NSValue+CGElements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSValue+CGElements.m"; path = "../../MultiTouchSpriteKit/NSValue+CGElements.m"; sourceTree = "<group>"; };
 		AD4DD46518E2F2FD00094C91 /* SKNode+MTKTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SKNode+MTKTransform.h"; path = "../../MultiTouchSpriteKit/SKNode+MTKTransform.h"; sourceTree = "<group>"; };
 		AD4DD46618E2F2FD00094C91 /* SKNode+MTKTransform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "SKNode+MTKTransform.m"; path = "../../MultiTouchSpriteKit/SKNode+MTKTransform.m"; sourceTree = "<group>"; };
+		ADC362FA18E8B07500A1BF15 /* MTKShapeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MTKShapeNode.h; path = ../../MultiTouchSpriteKit/MTKShapeNode.h; sourceTree = "<group>"; };
+		ADC362FB18E8B07500A1BF15 /* MTKShapeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MTKShapeNode.m; path = ../../MultiTouchSpriteKit/MTKShapeNode.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +153,8 @@
 				AD4DD46018E2F2FD00094C91 /* MTKAction.m */,
 				AD4DD46118E2F2FD00094C91 /* MTKUtil.h */,
 				AD4DD46218E2F2FD00094C91 /* MTKUtil.m */,
+				ADC362FA18E8B07500A1BF15 /* MTKShapeNode.h */,
+				ADC362FB18E8B07500A1BF15 /* MTKShapeNode.m */,
 				AD4DD46318E2F2FD00094C91 /* NSValue+CGElements.h */,
 				AD4DD46418E2F2FD00094C91 /* NSValue+CGElements.m */,
 				AD4DD46518E2F2FD00094C91 /* SKNode+MTKTransform.h */,
@@ -291,6 +296,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADC362FC18E8B07500A1BF15 /* MTKShapeNode.m in Sources */,
 				AD4DD43F18E2F2E100094C91 /* MyScene.m in Sources */,
 				AD4DD46718E2F2FD00094C91 /* MTKAction.m in Sources */,
 				AD4DD43C18E2F2E100094C91 /* ViewController.m in Sources */,
