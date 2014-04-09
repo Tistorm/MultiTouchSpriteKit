@@ -33,8 +33,10 @@
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
 
+#pragma mark -
+#pragma mark CGPoint
 
-// Point and Vector operations
+// CGPoint
 // =================================================================================================================
 /**
  *  Adds up two CGPoints component wise
@@ -271,16 +273,7 @@ CG_INLINE CGFloat MTKPointAngleBetweenVectors(CGPoint v1, CGPoint v2)
     }
 }
 
-// ------------------------------------------------------
 
-CG_INLINE CGFloat MTKUtilDegreeToRadiant(CGFloat degrees)
-{
-    return degrees * (M_PI / 180);
-}
-CG_INLINE CGFloat MTKUtilRadiantToDegree(CGFloat radians)
-{
-    return radians * (180 / M_PI);
-}
 // ------------------------------------------------------
 CG_INLINE CGPoint MTKPointFlip(CGPoint point)
 {
@@ -288,19 +281,298 @@ CG_INLINE CGPoint MTKPointFlip(CGPoint point)
     
 }
 
+
+#pragma mark -
+#pragma mark CGSize
+
+
+// CGSize
+// =================================================================================================================
+
+/**
+ *  Adds up two CGSizes component wise
+ *
+ *  @param augend first CGSize
+ *  @param addend second CGSize
+ *
+ *  @return Sum of both CGSizes as CGSize
+ */
+CG_INLINE CGSize MTKSizeAddSize(CGSize augend,CGSize addend)
+{
+    return CGSizeMake(augend.width + addend.width, augend.height + addend.height);
+}
+
+/**
+ *  Substracts one CGSize component wise from the other
+ *
+ *  @param minuend    The CGSize which will be substract.
+ *  @param subtrahend The CGSize that is used to substract.
+ *
+ *  @return result as CGSize
+ */
+
+CG_INLINE CGSize MTKSizeSubstractSize(CGSize minuend,CGSize subtrahend)
+{
+    return CGSizeMake(minuend.width - subtrahend.width, minuend.height - subtrahend.height);
+}
+
+
+/**
+ *  Multiplies the components of two CGSizes.
+ *
+ *  @param multiplicand The first CGSize.
+ *  @param multiplier The second CGSize.
+ *
+ *  @return The result as CGSize.
+ */
+CG_INLINE CGSize MTKSizeMultiplyWithSize(CGSize multiplicand,CGSize multiplier)
+{
+    return CGSizeMake(multiplicand.width * multiplier.width, multiplicand.height * multiplier.height);
+}
+
+/**
+ *  Divides one CGSize component wise by a other.
+ *
+ *  @param dividend The first CGSize.
+ *  @param divisor  The second CGSize,
+ *
+ *  @return The result as CGSize.
+ */
+
+CG_INLINE CGSize MTKSizeDivideBySize(CGSize dividend,CGSize divisor)
+{
+    return CGSizeMake(dividend.width / divisor.width, dividend.height / divisor.height);
+}
+
+
+// ------------------------------------------------------
+/**
+ *  Add a float to each of the components of a CGSize
+ *
+ *  @param augend  The CGSize.
+ *  @param xAddend The value that is added to the x component of the CGSize.
+ *  @param yAddend The value that is added to the y component of the CGSize.
+ *
+ *  @return result as CGSize
+ */
+CG_INLINE CGSize MTKSizeAddValues(CGSize augend,CGFloat xAddend,CGFloat yAddend)
+{
+    return CGSizeMake(augend.width + xAddend, augend.height + yAddend);
+}
+/**
+ *  Substract a float each of the components of a CGSize
+ *
+ *  @param minuend     The CGSize.
+ *  @param xSubtrahend The value that is substracted from the x component of the CGSize.
+ *  @param ySubtrahend The value that is substracted from the y component of the CGSize.
+ *
+ *  @return The Result as CGSize.
+ */
+
+CG_INLINE CGSize MTKSizeSubstractValues(CGSize minuend,CGFloat xSubtrahend,CGFloat ySubtrahend)
+{
+    return CGSizeMake(minuend.width - xSubtrahend, minuend.height - ySubtrahend);
+}
+
+/**
+ *  Multiply a float with each of the components of a CGSize.
+ *
+ *  @param multiplicand The CGSize.
+ *  @param xMultiplier  The value that is multiplied with the x component of the CGSize.
+ *  @param yMultiplier  The value that is multiplied with the y component of the CGSize.
+ *
+ *  @return The result as a CGSize.
+ */
+CG_INLINE CGSize MTKSizeMultiplyWithValues(CGSize multiplicand,CGFloat xMultiplier,CGFloat yMultiplier)
+{
+    return CGSizeMake(multiplicand.width * xMultiplier, multiplicand.height * yMultiplier);
+}
+
+/**
+ *  Divide each component of a CGSize by a float.
+ *
+ *  @param dividend The CGSize.
+ *  @param xDivisor The value with which the x component of the CGSize is devided.
+ *  @param yDivisor The value with which the y component of the CGSize is devided.
+ *
+ *  @return The result as CGSize
+ */
+
+CG_INLINE CGSize MTKSizeDivideByValues(CGSize dividend,CGFloat xDivisor,CGFloat yDivisor)
+{
+    return CGSizeMake(dividend.width / xDivisor, dividend.height / yDivisor);
+}
+
+
+// ------------------------------------------------------
+
+CG_INLINE CGSize MTKSizeAddScalar(CGSize augend,CGFloat addend)
+{
+    return CGSizeMake(augend.width + addend, augend.height + addend);
+}
+
+CG_INLINE CGSize MTKSizeSubstractScalar(CGSize minuend,CGFloat subtrahend)
+{
+    return CGSizeMake(minuend.width - subtrahend, minuend.height - subtrahend);
+}
+
+CG_INLINE CGSize MTKSizeMultiplyWithScalar(CGSize multiplicand,CGFloat multiplier)
+{
+    return CGSizeMake(multiplicand.width * multiplier, multiplicand.height * multiplier);
+}
+
+CG_INLINE CGSize MTKSizeDivideByScalar(CGSize dividend,CGFloat divisor)
+{
+    return CGSizeMake(dividend.width / divisor, dividend.height / divisor);
+}
+
+// ------------------------------------------------------
+/**
+ *  Returns the length of a CGSize which is interpreted as a vector
+ *
+ *  @param vector The Vector as CGSize.
+ *
+ *  @return The length of the Vector as CGFloat.
+ */
+CG_INLINE CGFloat MTKSizeLength(CGSize vector)
+{
+    return sqrtf(vector.width * vector.width + vector.height * vector.height);
+    
+}
+
+/**
+ *  Returns a normalized version of a vector
+ *
+ *  @param vector The vector that should be normalized.
+ *
+ *  @return The normalized vector as CGSize
+ */
+CG_INLINE CGSize MTKSizeNormalize(CGSize vector)
+{
+    CGFloat length = MTKSizeLength(vector);
+    return CGSizeMake(vector.width / length, vector.height / length);
+}
+
+/**
+ *  Compares each component of two CGSize
+ *
+ *  @param s1 first CGSize
+ *  @param s2 second CGSize
+ *
+ *  @return  YES if both components of each CGSize are equal.
+ */
+
+CG_INLINE BOOL MTKSizeIsEqualToSize(CGSize s1,CGSize s2)
+{
+    return (s1.width == s2.width) && (s1.height == s2.height);
+}
+/**
+ *  Calculates the vector from one Size to a other Size
+ *
+ *  @param start The start Size of the vector.
+ *  @param end   The end Size of the vector.
+ *
+ *  @return The vector form the start Size to the end Size.
+ */
+CG_INLINE CGSize MTKSizeVectorBetweenSizes(CGSize start, CGSize end)
+{
+    return CGSizeMake(end.width - start.width,end.height - start.height);
+    
+}
+
+/**
+ *  Calculates the angle of a vector relative to the base vector (1,0)
+ *
+ *  @param vector The vector as CGSize.
+ *
+ *  @return The angle of the vector in radiant.
+ */
+CG_INLINE CGFloat MTKSizeVectorAngle(CGSize vector)
+{
+    return atan2f(vector.height, vector.width);
+}
+/**
+ *  Calculates the distance between to Sizes
+ *
+ *  @param s1   The first Size.
+ *  @param s2   The second Size.
+ *
+ *  @return The distance between both Sizes.
+ */
+CG_INLINE CGFloat MTKSizeDistanceBetweenSizes(CGSize s1,CGSize s2)
+{
+    return MTKSizeLength(MTKSizeVectorBetweenSizes(s1, s2));
+}
+
+
+CG_INLINE CGFloat MTKSizeDotProduct(CGSize v1, CGSize v2)
+{
+    return v1.width * v2.width + v1.height * v2.height;
+}
+
+CG_INLINE CGFloat MTKSizeAngleBetweenVectors(CGSize v1, CGSize v2)
+{
+    CGFloat v1Angle = MTKSizeVectorAngle(v1);
+    CGFloat v2Angle = MTKSizeVectorAngle(v2);
+    if(v1Angle > v2Angle)
+    {
+        return v1Angle - v2Angle;
+    }
+    else
+    {
+        return v2Angle - v1Angle;
+    }
+}
+
+CG_INLINE CGPoint MTKSizeCenter(CGSize  size)
+{
+    return CGPointMake(size.width/2.0, size.height/2.0);
+}
+
+
 CG_INLINE CGSize MTKSizeFlip(CGSize size)
 {
     return CGSizeMake(size.height, size.width);
     
 }
+#pragma mark -
+#pragma mark CGVector
+
+// CGVector
+// =================================================================================================================
 
 CG_INLINE CGVector MTKVectorFlip(CGVector vector)
 {
     return CGVectorMake(vector.dy, vector.dx);
     
 }
+
+
+#pragma mark -
+#pragma mark CGRect
+
+// CRect
+// =================================================================================================================
+/**
+ *  Compares each component of two CGRects
+ *
+ *  @param r1 first CGRect.
+ *  @param r2 second CGRect.
+ *
+ *  @return  YES if both components of each CGRects are equal.
+ */
+
+CG_INLINE BOOL MTKRectIsEqualToRect(CGRect r1,CGRect r2)
+{
+    return (r1.origin.x == r2.origin.x) && (r1.origin.y == r2.origin.y) && (r1.size.width == r2.size.width) && (r1.size.height == r2.size.height);
+}
+
+
+#pragma mark -
+#pragma mark Convert functions
+
 // Convert functions CGPoint <-> CGSize <-> CGVector
-// ------------------------------------------------------
+// =================================================================================================================
 CG_INLINE CGSize CGPointToSize(CGPoint point)
 {
     return CGSizeMake(point.x, point.y);
@@ -318,7 +590,7 @@ CG_INLINE CGPoint CGSizeToPoint(CGSize size)
 
 CG_INLINE CGPoint CGVectorToPoint(CGVector vector)
 {
-     return CGPointMake(vector.dx, vector.dy);
+    return CGPointMake(vector.dx, vector.dy);
 }
 
 CG_INLINE CGVector CGSizeToVector(CGSize size)
@@ -331,15 +603,42 @@ CG_INLINE CGVector CGPointToVector(CGPoint point)
     return CGVectorMake(point.x , point.y);
 }
 
+#pragma mark -
+#pragma mark Angle operations
 
-// ------------------------------------------------------
-CG_INLINE CGPoint CGSizeCenter(CGSize  size)
+
+// Angle operations
+// =================================================================================================================
+
+CG_INLINE CGFloat MTKUtilDegreeToRadiant(CGFloat degrees)
 {
-    return CGPointMake(size.width/2.0, size.height/2.0);
+    return degrees * (M_PI / 180);
+}
+CG_INLINE CGFloat MTKUtilRadiantToDegree(CGFloat radians)
+{
+    return radians * (180 / M_PI);
 }
 
 
+
+#pragma mark -
+#pragma mark CGContext
+
+
+// CGContext
+// =================================================================================================================
+
+/**
+ *  Creates a CGContextRef for a Image
+ *  This method was taken from http://stackoverflow.com/questions/19490970/sprite-kit-and-colorwithpatternimage (Johnny)
+ 
+ *
+ *  @param pixelsWide Width of the context.
+ *  @param pixelsHigh Height of the context.
+ *
+ *  @return The BitmapContext
+ */
 CGContextRef createBitmapContext(const size_t pixelsWide, const size_t pixelsHigh);
 
-
+CGContextRef createBitmapContextWithSize(CGSize size);
 

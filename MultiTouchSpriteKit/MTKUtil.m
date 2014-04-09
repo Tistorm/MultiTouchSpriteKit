@@ -8,17 +8,15 @@
 
 #import "MTKUtil.h"
 
+// ------------------------------------------------------
+CGContextRef createBitmapContextWithSize(CGSize size)
+// ------------------------------------------------------
+{
+    return createBitmapContext(size.width, size.height);
+}
 
-/**
- *  Creates a CGContextRef for a Image
- *  This method was taken from http://stackoverflow.com/questions/19490970/sprite-kit-and-colorwithpatternimage (Johnny)
- 
- *
- *  @param pixelsWide Width of the context.
- *  @param pixelsHigh Height of the context.
- *
- *  @return The BitmapContext
- */
+
+
 // ------------------------------------------------------
 CGContextRef createBitmapContext(const size_t pixelsWide, const size_t pixelsHigh)
 // ------------------------------------------------------
