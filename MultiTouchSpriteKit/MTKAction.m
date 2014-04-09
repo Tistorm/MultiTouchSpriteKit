@@ -62,14 +62,14 @@
 }
 
 // ------------------------------------------------------
-+(MTKAction*)animateProperty:(NSString*)name to:(id)targetValue withDuration:(NSTimeInterval)duration
++(MTKAction*)animateProperty:(NSString*)name to:(NSValue*)targetValue withDuration:(NSTimeInterval)duration
 // ------------------------------------------------------
 {
     return [[MTKPropertyAction alloc] initWithTargetValue:targetValue  asAbsoluteTarget:YES forVariable:name Duration:duration];
 }
 
 // ------------------------------------------------------
-+(MTKAction*)animateProperty:(NSString*)name by:(id)targetValue withDuration:(NSTimeInterval)duration
++(MTKAction*)animateProperty:(NSString*)name by:(NSValue*)targetValue withDuration:(NSTimeInterval)duration
 // ------------------------------------------------------
 {
    return [[MTKPropertyAction alloc] initWithTargetValue:targetValue  asAbsoluteTarget:NO forVariable:name Duration:duration];
@@ -201,7 +201,7 @@
         _key = variableName;
         _target = [targetValue copy];
         //Test if target is NSNumber or NSvalue
-        if ([targetValue isKindOfClass:[NSNumber class]] ||[targetValue isKindOfClass:[NSValue class]] )
+        if ([targetValue isKindOfClass:[NSValue class]] )
         {
            //  _type = [NSString stringWithUTF8String: [targetValue objCType]];
             _targetIsAnObject = NO;
@@ -223,10 +223,10 @@
     NSMutableDictionary* data =  [self actionDataForNode:node];
     if ([node respondsToSelector:NSSelectorFromString(_key)])
     {
-        id propertyType = [node valueForKey:_key];
+        id propertyType = [node valueForKeyPath:_key];
         
         
-        if ([propertyType isKindOfClass:[NSNumber class]] ||[propertyType isKindOfClass:[NSValue class]] )
+        if ([propertyType isKindOfClass:[NSValue class]] )
         {
             // if target is NSNumber or NSvalue check for stored Type
             NSString* keyType = [NSString stringWithUTF8String: [propertyType  objCType]];
@@ -242,13 +242,13 @@
             if([targetType isEqualToString:keyType])
             {
                 // If target and property have the same object Type store stare value and continue
-                [data setObject:[node valueForKey:_key] forKey:@"startValue"];
+                [data setObject:[node valueForKeyPath:_key] forKey:@"startValue"];
                 [data setObject:keyType forKey:@"propertyType"];
             }
             else if([keyType isEqualToString:@"d"] && ([targetType isEqualToString:@"i"] ||  [targetType isEqualToString:@"f"]))
             {
                 // special Case: floats if the property is a float (double) and the target value an int/float/double also continue
-                [data setObject:[node valueForKey:_key] forKey:@"startValue"];
+                [data setObject:[node valueForKeyPath:_key] forKey:@"startValue"];
                 [data setObject:keyType forKey:@"propertyType"];
             }
             else
@@ -280,7 +280,7 @@
                     overallChange = [_target floatValue] - [startValue floatValue];
                 }
                 CGFloat value  = [startValue floatValue] + overallChange *( elapsedTime/self.duration);
-                [node setValue:@(value) forKey:_key];
+                [node setValue:@(value) forKeyPath:_key];
             }
             // int (NSInteger)
             else if([propertyType isEqualToString:@"i"])
@@ -291,7 +291,7 @@
                     overallChange = [_target intValue] - [startValue intValue];
                 }
                 int value  = [startValue intValue] + overallChange *(elapsedTime/self.duration);
-                [node setValue:@(value) forKey:_key];
+                [node setValue:@(value) forKeyPath:_key];
 
             }
             // CGPoint
@@ -303,7 +303,7 @@
                     overallChange = MTKPointSubstractPoint([_target CGPointValue], [startValue CGPointValue]);
                 }
                 CGPoint value = MTKPointAddPoint([startValue CGPointValue], MTKPointMultiplyWithScalar(overallChange, elapsedTime/self.duration));
-                [node setValue:[NSValue valueWithCGPoint:value] forKey:_key];
+                [node setValue:[NSValue valueWithCGPoint:value] forKeyPath:_key];
             }
         }
     }
