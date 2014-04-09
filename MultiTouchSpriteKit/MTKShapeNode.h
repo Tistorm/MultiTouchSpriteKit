@@ -29,8 +29,9 @@
  *
  ***********************************************************************************/
 #import <SpriteKit/SpriteKit.h>
+#import "MTKLayerNode.h"
 
-@interface MTKShapeNode : SKSpriteNode
+@interface MTKShapeNode : MTKLayerNode
 
 @property (SK_NONATOMIC_IOSONLY) CGPathRef path;
 

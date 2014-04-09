@@ -9,11 +9,21 @@
 #import "MTKShapeNode.h"
 #import "MTKUtil.h"
 
+
+@interface MTKLayerNode (subclass)
+
+@property(nonatomic)CAShapeLayer* layer;
+@property(nonatomic)SKSpriteNode* sprite;
+@property(nonatomic)CGContextRef cgContextRef;
+
+-(void)updateTexture;
+-(CGPoint)calculatedLayerPosition;
+-(CGSize)calculatedTextureSize;
+
+@end
+
 @implementation MTKShapeNode
 {
-    CGContextRef _cgContextRef;
-    CAShapeLayer* _layer;
-
 }
 // ------------------------------------------------------
 +(instancetype)shapeWithRect:(CGRect)rect
@@ -40,10 +50,11 @@
     self = [super init];
     if (self)
     {
-        self.anchorPoint = CGPointMake(0, 0);
-        _layer = [[CAShapeLayer alloc] init];
-        _layer.strokeColor = [[SKColor blackColor] CGColor];
-        _layer.fillColor = Nil;
+        self.layer = [[CAShapeLayer alloc] init];
+        self.layer.strokeColor = [[SKColor blackColor] CGColor];
+        self.layer.fillColor = Nil;
+       // self.layer.backgroundColor = [[SKColor greenColor] CGColor];
+        //self.layer.shadowOpacity = 1;
     }
     return self;
 }
@@ -53,14 +64,14 @@
 -(void)setStrokeColor:(SKColor *)strokeColor
 // ------------------------------------------------------
 {
-    _layer.strokeColor = [strokeColor CGColor];
+    self.layer.strokeColor = [strokeColor CGColor];
      [self updateTexture];
 }
 // ------------------------------------------------------
 -(SKColor*)strokeColor
 // ------------------------------------------------------
 {
-    return  [SKColor colorWithCGColor:_layer.strokeColor];
+    return  [SKColor colorWithCGColor:self.layer.strokeColor];
 }
 
 
@@ -71,29 +82,29 @@
 -(void)setFillColor:(SKColor *)fillColor
 // ------------------------------------------------------
 {
-    _layer.fillColor = [fillColor CGColor];
+    self.layer.fillColor = [fillColor CGColor];
     [self updateTexture];
 }
 // ------------------------------------------------------
 -(SKColor*)fillColor
 // ------------------------------------------------------
 {
-    return  [SKColor colorWithCGColor:_layer.fillColor];
+    return  [SKColor colorWithCGColor:self.layer.fillColor];
 }
 
 // ------------------------------------------------------
 -(void)setLineWidth:(CGFloat)lineWidth
 // ------------------------------------------------------
 {
-    _layer.lineWidth = lineWidth;
-    [self updateTexture];
+    self.layer.lineWidth = lineWidth;
+    [self updatedTextureWithPath:self.layer.path];
 }
 
 // ------------------------------------------------------
 -(CGFloat)lineWidth
 // ------------------------------------------------------
 {
-    return _layer.lineWidth;
+    return self.layer.lineWidth;
 }
 
 
@@ -101,7 +112,7 @@
 -(CGPathRef)path
 // ------------------------------------------------------
 {
-    return _layer.path;
+    return self.layer.path;
 }
 // ------------------------------------------------------
 -(void)setPath:(CGPathRef)path
@@ -116,7 +127,7 @@
 -(void)setStrokeEnd:(CGFloat)strokeEnd
 // ------------------------------------------------------
 {
-    _layer.strokeEnd = strokeEnd;
+    self.layer.strokeEnd = strokeEnd;
     [self updateTexture];
 }
 
@@ -124,14 +135,14 @@
 -(CGFloat)strokeEnd
 // ------------------------------------------------------
 {
-    return _layer.strokeEnd;
+    return self.layer.strokeEnd;
 }
 
 // ------------------------------------------------------
 -(void)setStrokeStart:(CGFloat)strokeStart
 // ------------------------------------------------------
 {
-    _layer.strokeStart = strokeStart;
+    self.layer.strokeStart = strokeStart;
     [self updateTexture];
 }
 
@@ -139,79 +150,80 @@
 -(CGFloat)strokeStart
 // ------------------------------------------------------
 {
-    return _layer.strokeStart;
+    return self.layer.strokeStart;
 }
 // ------------------------------------------------------
 -(void)setMiterLimit:(CGFloat)miterLimit
 // ------------------------------------------------------
 {
-    _layer.miterLimit = miterLimit;
-    [self updateTexture];
+    self.layer.miterLimit = miterLimit;
+    [self updatedTextureWithPath:self.layer.path];
 }
 
 // ------------------------------------------------------
 -(CGFloat)miterLimit
 // ------------------------------------------------------
 {
-    return _layer.miterLimit;
+    return self.layer.miterLimit;
 }
 
 // ------------------------------------------------------
 -(void)setLineCap:(NSString *)lineCap
 // ------------------------------------------------------
 {
-    _layer.lineCap = lineCap;
-    [self updateTexture];
+    self.layer.lineCap = lineCap;
+   [self updatedTextureWithPath:self.layer.path];
 }
 
 // ------------------------------------------------------
 -(NSString*)lineCap
 // ------------------------------------------------------
 {
-    return _layer.lineCap;
+    return self.layer.lineCap;
 }
 
 // ------------------------------------------------------
 -(void)setLineJoin:(NSString *)lineJoin
 // ------------------------------------------------------
 {
-    _layer.lineJoin = lineJoin;
-     [self updateTexture];
+    self.layer.lineJoin = lineJoin;
+    [self updatedTextureWithPath:self.layer.path];
 }
 
 // ------------------------------------------------------
 -(NSString*)lineJoin
 // ------------------------------------------------------
 {
-    return _layer.lineJoin;
+    return self.layer.lineJoin;
 }
 
 // ------------------------------------------------------
 -(void)setLineDashPhase:(CGFloat)lineDashPhase
 // ------------------------------------------------------
 {
-    _layer.lineDashPhase = lineDashPhase;
+    self.layer.lineDashPhase = lineDashPhase;
      [self updateTexture];
 }
 // ------------------------------------------------------
 -(CGFloat)lineDashPhase
 // ------------------------------------------------------
 {
-    return _layer.lineDashPhase;
+    return self.layer.lineDashPhase;
 }
 
 // ------------------------------------------------------
 -(void)setLineDashPattern:(NSArray *)lineDashPattern
 // ------------------------------------------------------
 {
-    _layer.lineDashPattern = lineDashPattern;
+    self.layer.lineDashPattern = lineDashPattern;
+    [self updateTexture];
 }
 
 // ------------------------------------------------------
 -(NSArray*)lineDashPattern
 // ------------------------------------------------------
 {
-    return _layer.lineDashPattern;
+    return self.layer.lineDashPattern;
 }
 
 
@@ -219,48 +231,22 @@
 -(void)updatedTextureWithPath:(CGPathRef)path
 // ------------------------------------------------------
 {
-    CGContextRelease(_cgContextRef);
     
     CGRect boundingBox = CGPathGetBoundingBox(path);
-    float space = 20;
-    CGSize textureSize  = CGSizeMake(boundingBox.origin.x+boundingBox.size.width +space , boundingBox.origin.y+boundingBox.size.height +space);
-    _cgContextRef = createBitmapContext(textureSize.width,textureSize.height);
-    self.size = textureSize;
     
-    _layer.frame = CGRectMake(0, 0,textureSize.width ,textureSize.height);
+    CGPoint test = MTKPointVectorBetweenPoints(boundingBox.origin, CGPointMake(self.layer.lineWidth/2.0, self.layer.lineWidth /2.0));
     
-    _layer.path = path;
-    
+    CGAffineTransform transform = CGAffineTransformMakeTranslation(test.x,test.y);
+    self.layer.path = CGPathCreateCopyByTransformingPath(path, &transform);
+    CGSize textureSize  = CGSizeMake(boundingBox.size.width +self.layer.lineWidth , boundingBox.size.height +self.layer.lineWidth);
+    self.layer.frame = CGRectMake(0,0, textureSize.width, textureSize.height);
+    self.layer.position = boundingBox.origin;
     [self updateTexture];
     
-    
-}
-
-// ------------------------------------------------------
--(void)updateTexture
-// ------------------------------------------------------
-{
-    CGContextClearRect(_cgContextRef, _layer.frame);
-    
-    [_layer renderInContext:_cgContextRef];
-    CGContextSetAllowsAntialiasing(_cgContextRef, YES);
-    CGImageRef imageref = CGBitmapContextCreateImage(_cgContextRef);
-    
-    SKTexture* texture1 = [SKTexture textureWithCGImage:imageref];
-    
-    CGImageRelease(imageref);
-    
-    [self setTexture:texture1];
-    
 }
 
 
 
-// ------------------------------------------------------
--(void)dealloc
-// ------------------------------------------------------
-{
-    CGContextRelease(_cgContextRef);
-}
+
 
 @end
