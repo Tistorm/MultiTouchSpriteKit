@@ -231,11 +231,8 @@
 -(void)updatedTextureWithPath:(CGPathRef)path
 // ------------------------------------------------------
 {
-    
     CGRect boundingBox = CGPathGetBoundingBox(path);
-    
     CGPoint test = MTKPointVectorBetweenPoints(boundingBox.origin, CGPointMake(self.layer.lineWidth/2.0, self.layer.lineWidth /2.0));
-    
     CGAffineTransform transform = CGAffineTransformMakeTranslation(test.x,test.y);
     self.layer.path = CGPathCreateCopyByTransformingPath(path, &transform);
     CGSize textureSize  = CGSizeMake(boundingBox.size.width +self.layer.lineWidth , boundingBox.size.height +self.layer.lineWidth);

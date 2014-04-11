@@ -12,7 +12,7 @@
 @interface MTKLayerNode()
 
 @property(nonatomic)CALayer* layer;
-@property(nonatomic)SKSpriteNode* sprite;
+@property(nonatomic,readwrite)SKSpriteNode* sprite;
 @property(nonatomic)CGContextRef cgContextRef;
 
 
@@ -49,6 +49,22 @@
 }
 
 // ------------------------------------------------------
+- (instancetype)init
+// ------------------------------------------------------
+{
+    self = [super init];
+    if (self) {
+        self.sprite = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:CGSizeMake(1, 1)];
+        self.sprite.anchorPoint = CGPointMake(0, 0);
+        [self addChild:self.sprite];
+       // self.layer = [[CALayer alloc] init];
+        // self.anchorPoint = CGPointMake(0, 0);
+    }
+    return self;
+}
+
+
+// ------------------------------------------------------
 -(void)updateTexture
 // ------------------------------------------------------
 {
@@ -69,19 +85,11 @@
     }
    self.sprite.anchorPoint = CGPointMake((self.layer.position.x + self.anchorPoint.x * self.layer.frame.size.width ) / self.sprite.size.width, (self.layer.position.y + self.anchorPoint.y * self.layer.frame.size.height)  / self.sprite.size.height);
     
-    [self drawTexture];
     
-}
-
-// ------------------------------------------------------
--(void)drawTexture
-// ------------------------------------------------------
-{
     float clearAreaOffset = self.layer.shadowRadius * 4;
     CGContextClearRect(self.cgContextRef, CGRectMake(-clearAreaOffset, -clearAreaOffset, self.sprite.size.width+clearAreaOffset, self.sprite.size.height+clearAreaOffset));
     
-    [self.layer renderInContext:self.cgContextRef];
-    
+    [self drawTexture];
     
     CGContextSetAllowsAntialiasing(self.cgContextRef, YES);
     CGImageRef imageref = CGBitmapContextCreateImage(self.cgContextRef);
@@ -92,22 +100,16 @@
     
     
     [self.sprite setTexture:texture1];
+    
 }
 
 // ------------------------------------------------------
-- (instancetype)init
+-(void)drawTexture
 // ------------------------------------------------------
 {
-    self = [super init];
-    if (self) {
-        self.sprite = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:CGSizeMake(1, 1)];
-          self.sprite.anchorPoint = CGPointMake(0, 0);
-        [self addChild:self.sprite];
-        self.layer = [[CALayer alloc] init];
-       // self.anchorPoint = CGPointMake(0, 0);
-    }
-    return self;
+    [self.layer renderInContext:self.cgContextRef];
 }
+
 
 // ------------------------------------------------------
 -(CGPoint)calculatedLayerPosition;

@@ -88,6 +88,8 @@
 
 @property CGFloat shadowRadius;
 
+@property(nonatomic,readonly)SKSpriteNode* sprite;
+
 ///* When non-null this path defines the outline used to construct the
 // * layer's shadow instead of using the layer's composited alpha
 // * channel. The path is rendered using the non-zero winding rule.

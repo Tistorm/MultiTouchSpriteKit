@@ -14,7 +14,16 @@
 @property(copy)NSArray* colors;
 
 @property(copy)NSArray* locations;
-@property(nonatomic)CGPoint startPoint, endPoint;
-@property(nonatomic)NSString* type;
+@property(nonatomic)CGPoint startPoint;
+@property(copy,nonatomic)NSString* type;
+
+@property(nonatomic)CGFloat radius;
+
+-(instancetype)initWithSize:(CGSize)size;
+
+
 
 @end
+
+NSString * const kMTKGradientAxial;
+NSString * const kMTKGradientRadial;
