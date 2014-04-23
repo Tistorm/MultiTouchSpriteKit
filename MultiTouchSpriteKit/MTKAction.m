@@ -272,7 +272,7 @@
         {
             NSString* propertyType = [data objectForKey:@"propertyType"];
             //float (double)
-            if([propertyType isEqualToString:@"d"])
+            if([propertyType isEqualToString:@"d"] || [propertyType isEqualToString:@"f"])
             {
                 CGFloat overallChange = [_target floatValue];
                 if(_absoluteTarget)
