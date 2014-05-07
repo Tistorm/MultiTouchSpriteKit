@@ -122,6 +122,8 @@ NSString *const kMTKGradientRadial   = @"kMTKGradientRadial";
     [self updateTexture];
 }
 
+
+
 -(CGFloat)radius
 {
     return _radius;
@@ -153,7 +155,7 @@ NSString *const kMTKGradientRadial   = @"kMTKGradientRadial";
     }
     if (!self.locations)
     {
-        NSMutableArray* loc = [NSMutableArray arrayWithCapacity:self.colors.count];
+       // NSMutableArray* loc = [NSMutableArray arrayWithCapacity:self.colors.count];
         for (int i =0 ; i < self.colors.count; i++)
         {
             
