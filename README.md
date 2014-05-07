@@ -5,6 +5,15 @@ MultiTouchSpriteKit is a collection of extensions for Apple's SpriteKit framewor
 
  Additional extensions will follow in the next couple of weeks.
 
+****
+###Update (03.04.2014)
+**[MTKLayerNode](#MTKLayerNode):** A SKSpriteNode backed by a CALayer.
+
+**[MTKShapeNode](#MTKShapeNode):** A subclass of MTKLayer with a CAShapeLayer.
+
+**[MTKAction](#MTKAction):** New property animations.
+
+****
 
 ### SKNode+MTKTransform
 This category allows to directly manipulated SKNodes with up to two touch points.
@@ -43,9 +52,20 @@ This method takes two arrays of up to two CGPoints stored in NSValues and the co
 *  **scale:** The absolute scale of the node as a CGSize stored in a NSValue.
 *  **angle:** The absolute angle to its parent node as a float stored in a NSNumber.
 
+###<a name="MTKLayerNode"></a>MTKLayerNode
+The MTKLayerNode is a SKSpriteNode backed by a CALayer.
+ The CALayer is rendered into a texture which is displayed by SKSpriteNode.
+
+###<a name="MTKShapeNode"></a>MTKShapeNode
+
+Due to the problems of the SKShapeNode, pointed out by [Sartak](http://sartak.org/2014/03/skshapenode-you-are-dead-to-me.html), the MTKShapeNode is a SKSpriteNode backed by a CAShapeLayer. The MTKShapeNode is a subclass of the MTKLayerNode.
+
+It nearly has the same properties as the SKShapeNode plus additional properties from the CAShapeLayer.
 
 
-### MTKAction
+
+
+###<a name="MTKAction"> MTKAction  _updated_
 
 MTKAction is a custom animation class that uses the SKAction animation system. A MTKAction allows you to run custom code directly before an animation, on each frame of the animation, and directly after an animation.
  
@@ -74,6 +94,53 @@ To use your custom animation you just have to initialize your subclass with a du
 MyCustomMoveAction* myAction = [MyCustomMoveAction alloc] initWithDuration:4]; 
 [myNode runAction:myAction.skAction];
   ```
+Since a instance of a MTKAction can be applied to more then one node at the same time, some values that store in the <code>setup:</code> method have to stored for each individual node.
+
+Therefore, the following method allow to store node specific values in a NSDictionary:
+
+```
+-(NSMutableDictionary*)actionDataForNode:(SKNode*)node;
+```
+This method returns a NSMutableDictionary for a specific node.
+
+```
+-(NSMutableDictionary*)actionData;
+```
+Returns a global Dictionary to store variable that a independent of the node that runs the the actions. For example for a custom move animation the move vector. 
+
+```
+-(void)setData:(id)data forNode:(SKNode*)node andKey:(NSString*)key;
+```
+Stores a object for a key for a specific node. ****
+
+```
+-(id)dataForNode:(SKNode*)node andKey:(NSString*)key;
+```
+Returns the object for a key that was stored for a specific node
+
+
+####Generic property animations
+The following methods create a animation that animate a specific property of a node (using KeyValueCoding):
+
+```
++(MTKAction*)animateProperty:(NSString*)name to:(id)targetValue withDuration:(NSTimeInterval)duration;
++(MTKAction*)animateProperty:(NSString*)name by:(id)targetValue withDuration:(NSTimeInterval)duration;
+```
+* **name:** The name of the property.
+* **targetValue:** The target value for the property. The type of the target value has to match the type of the property. Only floats, ints, doubles, and CGPoints as NSNumbers or NSValues are currently supported. Other Types such es SKColor will follow soon.
+* **duration:** Duration of the animation.
+
+For example, the code to animate a specific float value such as the lineWidth of the MTKShapeNode looks like this:
+
+```
+@property float lineWidth;
+
+[MTKAction animateProperty:@"lineWidth" to:@(10.0) withDuration:5];
+```
+
+
+
+
  
 ###MTKTransformationAction
 
