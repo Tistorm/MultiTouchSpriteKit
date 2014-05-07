@@ -281,6 +281,32 @@ CG_INLINE CGPoint MTKPointFlip(CGPoint point)
     
 }
 
+CG_INLINE CGFloat MTKMinimumDistanceBetweenVectorAndPoint(CGPoint vectorStart, CGPoint vectorEnd, CGPoint seperatePoint, bool infiniteVector)
+{
+    CGFloat lengthOfVector = MTKPointDistanceBetweenPoints(vectorStart, vectorEnd);
+    
+    float u = ((seperatePoint.x - vectorStart.x)*(vectorEnd.x - vectorStart.x) + (seperatePoint.y - vectorStart.y) * (vectorEnd.y - vectorStart.y)) / (lengthOfVector * lengthOfVector);
+    
+    if (!infiniteVector)
+    {
+        if (u > 1)
+        {
+            u = 1;
+        }
+        else if (u < 0)
+        {
+            u = 0;
+        }
+    }
+    
+    CGPoint nearstPoint = CGPointMake(vectorStart.x + u * (vectorEnd.x - vectorStart.x),
+                                      vectorStart.y + u * (vectorEnd.y - vectorStart.y));
+    
+    float derivation = sqrt((nearstPoint.x - seperatePoint.x) * (nearstPoint.x - seperatePoint.x) + (nearstPoint.y - seperatePoint.y) * (nearstPoint.y - seperatePoint.y));
+    
+    return derivation;
+    
+}
 
 #pragma mark -
 #pragma mark CGSize
