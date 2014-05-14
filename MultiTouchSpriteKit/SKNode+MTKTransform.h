@@ -109,13 +109,7 @@ typedef NS_OPTIONS(NSInteger, MTKNodeTransformationConstraints)
 #pragma mark -
 #pragma mark Utilities
 /** @name Utilities */
-/**
- *  This method recursively searches for the top most Node which is the SKScene.
- *  @discussion This function is need since most touches are in the coordinates of the SKScene
- *
- *  @return the root element as SKNode
- */
--(SKNode*)rootScene;
+
 
 /**
  *  This method check if the userData property of the SKNode is initialized. If not it will create the NSMutableDictionary

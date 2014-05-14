@@ -130,12 +130,12 @@
     CGPoint secondEndPoint = [[endPoints objectAtIndex:1] CGPointValue];
     if (!startNode)
     {
-        startNode = [self rootScene];
+        startNode = self.scene;
     }
     
     if (!endNode)
     {
-        endNode = [self rootScene];
+        endNode = self.scene;
     }
     
     if (endNode != self.parent)
@@ -191,20 +191,8 @@
 }
 
 
-#pragma mark -
-#pragma mark Utilities
 
 
-// ------------------------------------------------------
--(SKNode*)rootScene
-// ------------------------------------------------------
-{
-    if (self.parent == nil)
-    {
-        return self;
-    }
-    return [self.parent rootScene];
-}
 
 
 @end
