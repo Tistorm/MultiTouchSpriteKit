@@ -53,6 +53,7 @@
         self.layer = [[CAShapeLayer alloc] init];
         self.layer.strokeColor = [[SKColor blackColor] CGColor];
         self.layer.fillColor = Nil;
+        self.useShapeForHitTesting = YES;
        // self.layer.backgroundColor = [[SKColor greenColor] CGColor];
         //self.layer.shadowOpacity = 1;
     }
@@ -227,6 +228,7 @@
 }
 
 
+
 // ------------------------------------------------------
 -(void)updatedTextureWithPath:(CGPathRef)path
 // ------------------------------------------------------
@@ -242,7 +244,28 @@
     
 }
 
+// ------------------------------------------------------
+- (BOOL)containsPoint:(CGPoint)p
+// ------------------------------------------------------
+{
+    if (!self.useShapeForHitTesting)
+    {
+        [super containsPoint:p];
+    }
+    return [self shapeContainsPoint:p fromNode:nil];
+}
 
+// ------------------------------------------------------
+-(BOOL)shapeContainsPoint:(CGPoint)point fromNode:(SKNode*)node
+// ------------------------------------------------------
+{
+    //if (!node)
+    {
+        node = self.scene;
+    }
+    
+    return CGPathContainsPoint(self.path, nil,[node convertPoint:point toNode:self.sprite], YES);
+}
 
 
 

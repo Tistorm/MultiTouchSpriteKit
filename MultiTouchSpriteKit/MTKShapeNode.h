@@ -93,7 +93,16 @@
 @property(copy) NSArray *lineDashPattern;
 
 
+@property(nonatomic)BOOL useShapeForHitTesting;
+
+
 +(instancetype)shapeWithRoundedRect:(CGRect)rect cornerWidth:(CGFloat)cornerWidth cornerHeight:(CGFloat)cornerHeight;
 +(instancetype)shapeWithRect:(CGRect)rect;
+
+
+
+-(BOOL)shapeContainsPoint:(CGPoint)point fromNode:(SKNode*)node;
+
+
 
 @end
