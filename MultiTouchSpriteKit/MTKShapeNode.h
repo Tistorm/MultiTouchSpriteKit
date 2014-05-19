@@ -31,7 +31,35 @@
 #import <SpriteKit/SpriteKit.h>
 #import "MTKLayerNode.h"
 
+/**
+ *  MTKShape Hit Mode
+ */
+typedef NS_ENUM(NSUInteger, MTKShapeHitMode) {
+    /**
+     *  Sets the bounding box of the shape as hit testing area.
+     */
+    MTKSHapeHitModeBoundingBox,
+    /**
+     *  Sets the fill area of the shape as hit testing area.
+     */
+    MTKSHapeHitModeFillArea,
+    /**
+     *  Sets the stroke area of the shape as the hit testing area. This also includes linWidth.
+     */
+    MTKShapeHitModeStrokeArea,
+    /**
+     *  Sets the fill and the stroke area as hit testing area.
+     */
+    MTKShapeHitModePolygonArea
+};
+
 @interface MTKShapeNode : MTKLayerNode
+
+
+
++(instancetype)shapeWithRoundedRect:(CGRect)rect cornerWidth:(CGFloat)cornerWidth cornerHeight:(CGFloat)cornerHeight;
++(instancetype)shapeWithRect:(CGRect)rect;
+
 
 @property (SK_NONATOMIC_IOSONLY) CGPathRef path;
 
@@ -92,15 +120,26 @@
 
 @property(copy) NSArray *lineDashPattern;
 
-
+/**
+ *  Changing this Bool to YES changes the hit testing from the method [SKNode]containsPoint: such that it only returns true if the point is inside the path */
 @property(nonatomic)BOOL useShapeForHitTesting;
 
 
-+(instancetype)shapeWithRoundedRect:(CGRect)rect cornerWidth:(CGFloat)cornerWidth cornerHeight:(CGFloat)cornerHeight;
-+(instancetype)shapeWithRect:(CGRect)rect;
+/**
+ *   The HitTesting Mode for the Shape.
+ * @discussion The possible values for this property are listed in MTKShapeHitMode. The default value of this property is MTKShapeHitModePolygonArea.
+ */
+@property(nonatomic)MTKShapeHitMode hitTestMode;
 
 
-
+/**
+ *  Checks if the given point  is inside the path
+ *
+ *  @param point Point that should be tested.
+ *  @param node  The coordiante system of the point. If the node is nil the current Scene is used as the coordinate system of the point.
+ *
+ *  @return YES if the point is inside the path.
+ */
 -(BOOL)shapeContainsPoint:(CGPoint)point fromNode:(SKNode*)node;
 
 

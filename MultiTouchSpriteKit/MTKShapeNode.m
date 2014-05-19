@@ -24,6 +24,7 @@
 
 @implementation MTKShapeNode
 {
+    CGPathRef strokePath;
 }
 // ------------------------------------------------------
 +(instancetype)shapeWithRect:(CGRect)rect
@@ -53,9 +54,7 @@
         self.layer = [[CAShapeLayer alloc] init];
         self.layer.strokeColor = [[SKColor blackColor] CGColor];
         self.layer.fillColor = Nil;
-        self.useShapeForHitTesting = YES;
-       // self.layer.backgroundColor = [[SKColor greenColor] CGColor];
-        //self.layer.shadowOpacity = 1;
+        self.hitTestMode = MTKShapeHitModePolygonArea;
     }
     return self;
 }
@@ -233,6 +232,10 @@
 -(void)updatedTextureWithPath:(CGPathRef)path
 // ------------------------------------------------------
 {
+    
+    
+    
+
     CGRect boundingBox = CGPathGetBoundingBox(path);
     CGPoint test = MTKPointVectorBetweenPoints(boundingBox.origin, CGPointMake(self.layer.lineWidth/2.0, self.layer.lineWidth /2.0));
     CGAffineTransform transform = CGAffineTransformMakeTranslation(test.x,test.y);
@@ -241,6 +244,8 @@
     self.layer.frame = CGRectMake(0,0, textureSize.width, textureSize.height);
     self.layer.position = boundingBox.origin;
     [self updateTexture];
+    CGPathRelease(strokePath);
+    strokePath = CGPathCreateCopyByStrokingPath(self.path, NULL,self.lineWidth, kCGLineCapButt ,kCGLineJoinMiter, self.miterLimit);
     
 }
 
@@ -248,23 +253,50 @@
 - (BOOL)containsPoint:(CGPoint)p
 // ------------------------------------------------------
 {
-    if (!self.useShapeForHitTesting)
+    if (self.hitTestMode == MTKSHapeHitModeBoundingBox)
     {
-        [super containsPoint:p];
+       return [super containsPoint:p];
     }
     return [self shapeContainsPoint:p fromNode:nil];
-}
+ }
 
 // ------------------------------------------------------
 -(BOOL)shapeContainsPoint:(CGPoint)point fromNode:(SKNode*)node
-// ------------------------------------------------------
+//------------------------------------------------------
 {
-    //if (!node)
+
+    
+    if (!node)
     {
         node = self.scene;
     }
+
+    BOOL hit = NO;
+    if (self.hitTestMode == MTKSHapeHitModeBoundingBox)
+    {
+        hit =  [super containsPoint:point];
+    }
+    else if(self.hitTestMode == MTKSHapeHitModeFillArea)
+    {
+          hit = CGPathContainsPoint(self.path, nil,[node convertPoint:point toNode:self.sprite], YES);
+    }
+    else if(self.hitTestMode == MTKShapeHitModeStrokeArea)
+    {
+        hit = CGPathContainsPoint(strokePath, nil,[node convertPoint:point toNode:self.sprite], YES);
+    }
+    else
+    {
+         hit = CGPathContainsPoint(self.path, nil,[node convertPoint:point toNode:self.sprite], YES);
+        if (hit == NO)
+        {
+             hit = CGPathContainsPoint(strokePath, nil,[node convertPoint:point toNode:self.sprite], YES);
+        }
+    }
     
-    return CGPathContainsPoint(self.path, nil,[node convertPoint:point toNode:self.sprite], YES);
+
+    return hit;
+    
+    
 }
 
 
