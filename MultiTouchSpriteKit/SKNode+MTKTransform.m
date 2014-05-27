@@ -183,18 +183,16 @@
         relativeScaleFactor = 1.0f;
     }
     
-    float hScale = relativeScaleFactor;
-    float vScale = relativeScaleFactor;
-    /*
+    float hScale = 1.0f;
+    float vScale = 1.0f;
+    
     if (self.isSeperatelyScalable) {
         //Get the angle between the 2 touching points and the rotation of the object modulo PI
         float angleBetween2Points = atan((secondStartPoint.y-firstStartPoint.y)/(secondStartPoint.x-firstStartPoint.x));
         float moduloAngle = fmod(self.zRotation-angleBetween2Points, (M_PI));
+        
         if(moduloAngle < 0)
             moduloAngle += (M_PI);
-        
-        float hScale = 1.0f;
-        float vScale = 1.0f;
         
         //Check if the 2 touching points are aligned on one line +- scaleAngleOfDeviation (horizontal and vertical)
         if(moduloAngle > M_PI-scaleAngleOfDeviation || moduloAngle < scaleAngleOfDeviation)
@@ -205,8 +203,13 @@
         {
             vScale = relativeScaleFactor;
         }
+        else
+        {
+            hScale = relativeScaleFactor;
+            vScale = relativeScaleFactor;
+        }
     }
-    */
+    
     
     CGPoint globalVector = MTKPointVectorBetweenPoints(firstEndPoint,secondEndPoint);
     CGPoint previousGlobalVector = MTKPointVectorBetweenPoints(firstStartPoint, secondStartPoint);
