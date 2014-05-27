@@ -67,6 +67,8 @@ typedef NS_OPTIONS(NSInteger, MTKNodeTransformationConstraints)
 
 @property(getter=isTouchable) BOOL touchable;
 
+@property(getter=isSeperatelyScalable) BOOL seperatelyScalable;
+
 @property(nonatomic)MTKNodeTransformationConstraints transformationConstraints;
 
 #pragma mark -

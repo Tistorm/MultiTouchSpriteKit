@@ -9,6 +9,8 @@
 #import "SKNode+MTKTransform.h"
 #import "MTKUtil.h"
 
+#define scaleAngleOfDeviation 0.14
+
 
 @implementation SKNode (MTKTransform)
 
@@ -59,6 +61,27 @@
     }
     [self checkUserData];
     return [[self.userData objectForKey:@"MTKTouchable"] boolValue];
+}
+
+
+// ------------------------------------------------------
+-(void)setSeperatelyScalable:(BOOL)seperatelyScalable
+// ------------------------------------------------------
+{
+    [self checkUserData];
+    [self.userData setObject:[NSNumber numberWithBool:seperatelyScalable] forKey:@"MTKSeparatelyScalable"];
+}
+
+// ------------------------------------------------------
+-(BOOL)isSeperatelyScalable
+// ------------------------------------------------------
+{
+    if (!self.userData)
+    {
+        return NO;
+    }
+    [self checkUserData];
+    return [[self.userData objectForKey:@"MTKSeparatelyScalable"] boolValue];
 }
 
 
@@ -128,7 +151,6 @@
     
     CGPoint firstEndPoint = [[endPoints objectAtIndex:0] CGPointValue];
     CGPoint secondEndPoint = [[endPoints objectAtIndex:1] CGPointValue];
-    
     if (!startNode)
     {
         startNode = self.scene;
@@ -141,8 +163,8 @@
     
     if (endNode != self.parent)
     {
-        firstEndPoint = [self.parent convertPoint:   firstEndPoint fromNode:endNode];
-       secondEndPoint  = [self.parent convertPoint:   secondEndPoint fromNode:endNode];
+        firstEndPoint = [endNode convertPoint: firstEndPoint toNode:self.parent];
+       secondEndPoint  = [endNode convertPoint: secondEndPoint toNode:self.parent];
     }
     if ( startNode != self.parent)
     {
@@ -161,6 +183,31 @@
         relativeScaleFactor = 1.0f;
     }
     
+    float hScale = relativeScaleFactor;
+    float vScale = relativeScaleFactor;
+    /*
+    if (self.isSeperatelyScalable) {
+        //Get the angle between the 2 touching points and the rotation of the object modulo PI
+        float angleBetween2Points = atan((secondStartPoint.y-firstStartPoint.y)/(secondStartPoint.x-firstStartPoint.x));
+        float moduloAngle = fmod(self.zRotation-angleBetween2Points, (M_PI));
+        if(moduloAngle < 0)
+            moduloAngle += (M_PI);
+        
+        float hScale = 1.0f;
+        float vScale = 1.0f;
+        
+        //Check if the 2 touching points are aligned on one line +- scaleAngleOfDeviation (horizontal and vertical)
+        if(moduloAngle > M_PI-scaleAngleOfDeviation || moduloAngle < scaleAngleOfDeviation)
+        {
+            hScale = relativeScaleFactor;
+        }
+        else if(moduloAngle > M_PI_2-scaleAngleOfDeviation && moduloAngle < M_PI_2+scaleAngleOfDeviation)
+        {
+            vScale = relativeScaleFactor;
+        }
+    }
+    */
+    
     CGPoint globalVector = MTKPointVectorBetweenPoints(firstEndPoint,secondEndPoint);
     CGPoint previousGlobalVector = MTKPointVectorBetweenPoints(firstStartPoint, secondStartPoint);
     
@@ -171,9 +218,9 @@
         relativeAngle = 0.0f;
     }
     
-    CGPoint localVector = [self convertPoint:firstStartPoint fromNode:self.parent];
+    CGPoint localVector = [self.parent convertPoint:firstStartPoint toNode:self];
     
-    CGSize scale = CGSizeMake(self.xScale * relativeScaleFactor , self.yScale * relativeScaleFactor);
+    CGSize scale = CGSizeMake(self.xScale * hScale , self.yScale * vScale);
      float rotationAngle = self.zRotation + relativeAngle;
     
     
