@@ -218,7 +218,7 @@
         relativeAngle = 0.0f;
     }
     
-    CGPoint localVector = [self.parent convertPoint:firstStartPoint toNode:self];
+    CGPoint localVector = [self convertPoint:firstStartPoint fromNode:self.parent];
     
     CGSize scale = CGSizeMake(self.xScale * hScale , self.yScale * vScale);
      float rotationAngle = self.zRotation + relativeAngle;
