@@ -128,6 +128,7 @@
     
     CGPoint firstEndPoint = [[endPoints objectAtIndex:0] CGPointValue];
     CGPoint secondEndPoint = [[endPoints objectAtIndex:1] CGPointValue];
+    
     if (!startNode)
     {
         startNode = self.scene;
@@ -140,8 +141,8 @@
     
     if (endNode != self.parent)
     {
-        firstEndPoint = [endNode convertPoint: firstEndPoint toNode:self.parent];
-       secondEndPoint  = [endNode convertPoint: secondEndPoint toNode:self.parent];
+        firstEndPoint = [self.parent convertPoint:   firstEndPoint fromNode:endNode];
+       secondEndPoint  = [self.parent convertPoint:   secondEndPoint fromNode:endNode];
     }
     if ( startNode != self.parent)
     {
@@ -170,7 +171,7 @@
         relativeAngle = 0.0f;
     }
     
-    CGPoint localVector = [self.parent convertPoint:firstStartPoint toNode:self];
+    CGPoint localVector = [self convertPoint:firstStartPoint fromNode:self.parent];
     
     CGSize scale = CGSizeMake(self.xScale * relativeScaleFactor , self.yScale * relativeScaleFactor);
      float rotationAngle = self.zRotation + relativeAngle;
