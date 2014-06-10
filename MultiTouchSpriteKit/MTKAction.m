@@ -13,6 +13,12 @@
 #import "MTKUtil.h"
 
 
+#if TARGET_OS_IPHONE
+#define SKColorWith(r,g,b,a)  [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a/255.0f]
+#else
+#define SKColorWith(r,g,b,a) [NSColor colorWithCalibratedRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a/255.0f]
+#endif
+
 
 @interface SKAction (MTKCustomAction)
 
@@ -53,6 +59,14 @@
 @end
 
 
+
+@interface MTKColorAction : MTKAction
+
+-(instancetype)initWithWithTargetColor:(SKColor*)targetColor asAbsoluteTarget:(BOOL)absoluteTarget forVariable:(NSString*)variableName withDuration:(NSTimeInterval)duration;
+
+@end
+
+
 // =================================================================================================================
 
 @implementation MTKAction
@@ -62,14 +76,27 @@
 }
 
 // ------------------------------------------------------
-+(MTKAction*)animateProperty:(NSString*)name to:(NSValue*)targetValue withDuration:(NSTimeInterval)duration
++(MTKColorAction*)animateColorProperty:(NSString*)name to:(SKColor*)targetColor withDuration:(NSTimeInterval)duration
+// ------------------------------------------------------
+{
+    return [[MTKColorAction alloc] initWithWithTargetColor:targetColor asAbsoluteTarget:YES forVariable:name withDuration:duration];
+}
+// ------------------------------------------------------
++(MTKColorAction*)animateColorProperty:(NSString*)name by:(SKColor*)targetColor withDuration:(NSTimeInterval)duration
+// ------------------------------------------------------
+{
+    return [[MTKColorAction alloc] initWithWithTargetColor:targetColor asAbsoluteTarget:NO forVariable:name withDuration:duration];
+}
+
+// ------------------------------------------------------
++(MTKAction*)animateValueProperty:(NSString*)name to:(NSValue*)targetValue withDuration:(NSTimeInterval)duration
 // ------------------------------------------------------
 {
     return [[MTKPropertyAction alloc] initWithTargetValue:targetValue  asAbsoluteTarget:YES forVariable:name Duration:duration];
 }
 
 // ------------------------------------------------------
-+(MTKAction*)animateProperty:(NSString*)name by:(NSValue*)targetValue withDuration:(NSTimeInterval)duration
++(MTKAction*)animateValueProperty:(NSString*)name by:(NSValue*)targetValue withDuration:(NSTimeInterval)duration
 // ------------------------------------------------------
 {
    return [[MTKPropertyAction alloc] initWithTargetValue:targetValue  asAbsoluteTarget:NO forVariable:name Duration:duration];
@@ -179,9 +206,10 @@
 
 @end
 
-// =================================================================================================================
 
+// =================================================================================================================
 @implementation MTKPropertyAction
+// =================================================================================================================
 {
     NSString* _key;
     id _target;
@@ -245,7 +273,7 @@
                 [data setObject:[node valueForKeyPath:_key] forKey:@"startValue"];
                 [data setObject:keyType forKey:@"propertyType"];
             }
-            else if([keyType isEqualToString:@"d"] && ([targetType isEqualToString:@"i"] ||  [targetType isEqualToString:@"f"]))
+            else if(([keyType isEqualToString:@"d"] || [keyType isEqualToString:@"f"]) && ([targetType isEqualToString:@"i"] ||  [targetType isEqualToString:@"f"]))
             {
                 // special Case: floats if the property is a float (double) and the target value an int/float/double also continue
                 [data setObject:[node valueForKeyPath:_key] forKey:@"startValue"];
@@ -253,6 +281,7 @@
             }
             else
             {
+                NSLog(@"%@ %@",keyType,targetType);
                 // throw execption if target and property type does not match
                 @throw [NSException exceptionWithName:@"MTKAction" reason:[NSString stringWithFormat:@"Variable type with name %@ does not match the type of the target Value %@",_key,_target] userInfo:nil];
             }
@@ -311,6 +340,109 @@
 
 // ------------------------------------------------------
 -(void)teardown:(SKNode *)node
+// ------------------------------------------------------
+{
+    
+}
+
+
+@end
+
+
+
+
+// =================================================================================================================
+@implementation MTKColorAction
+// =================================================================================================================
+{
+    NSString* _key;
+    SKColor* _target;
+    BOOL _absoluteTarget;
+    CGFloat colors[4];
+}
+
+
+-(instancetype)initWithWithTargetColor:(SKColor*)targetColor asAbsoluteTarget:(BOOL)absoluteTarget forVariable:(NSString*)variableName withDuration:(NSTimeInterval)duration
+{
+    self = [super initWithDuration:duration];
+    if (self)
+    {
+        _key = variableName;
+        _target = targetColor;
+       
+        
+#if TARGET_OS_IPHONE
+#else
+         _target = [_target colorUsingColorSpaceName:@"NSCalibratedRGBColorSpace"];
+#endif
+       
+        
+        
+       
+        [targetColor getRed:&colors[0] green:&colors[1] blue:&colors[2] alpha:&colors[3]];
+        
+        NSLog(@"%f %f %f %F",colors[0],colors[1],colors[2],colors[3]);
+    }
+    return self;
+
+}
+
+// ------------------------------------------------------
+-(void)setup:(SKNode *)node;
+// ------------------------------------------------------
+{
+    NSMutableDictionary* data =  [self actionDataForNode:node];
+    if ([node respondsToSelector:NSSelectorFromString(_key)])
+    {
+        CGFloat currentColor[4];
+          SKColor* currentColorObject = [node valueForKeyPath:_key];
+        
+#if TARGET_OS_IPHONE
+#else
+        currentColorObject = [currentColorObject colorUsingColorSpaceName:@"NSCalibratedRGBColorSpace"];
+#endif
+        
+        [currentColorObject getRed:&currentColor[0] green:&currentColor[1] blue:&currentColor[2] alpha:&currentColor[3]];
+        
+        [data setObject:@(currentColor[0]) forKey:@"red"];
+        [data setObject:@(currentColor[1]) forKey:@"green"];
+        [data setObject:@(currentColor[2]) forKey:@"blue"];
+        [data setObject:@(currentColor[3]) forKey:@"alpha"];
+        
+        CGFloat delta[4];
+        delta[0] = colors[0] - currentColor[0];
+          delta[1] = colors[1] - currentColor[1];
+          delta[2] = colors[2] - currentColor[2];
+          delta[3] = colors[3] - currentColor[3];
+        
+        [data setObject:@(delta[0]) forKey:@"red_delta"];
+        [data setObject:@(delta[1]) forKey:@"green_delta"];
+        [data setObject:@(delta[2]) forKey:@"blue_delta"];
+        [data setObject:@(delta[3]) forKey:@"alpha_delta"];
+
+        
+    }
+}
+// ------------------------------------------------------
+-(void)update:(SKNode *)node elapsedTime:(CGFloat)elapsedTime;
+// ------------------------------------------------------
+{
+    
+    if ([node respondsToSelector:NSSelectorFromString(_key)])
+    {
+         NSMutableDictionary* data =  [self actionDataForNode:node];
+        
+        
+        [node setValue:SKColorWith(
+                                   ([[data objectForKey:@"red"] floatValue] + [[data objectForKey:@"red_delta"] floatValue]  *(elapsedTime/self.duration)) * 255,
+                                   ([[data objectForKey:@"green"] floatValue] + [[data objectForKey:@"green_delta"] floatValue]  *(elapsedTime/self.duration)) * 255,
+                                   ([[data objectForKey:@"blue"] floatValue] + [[data objectForKey:@"blue_delta"] floatValue]  *(elapsedTime/self.duration)) * 255,
+                                   ([[data objectForKey:@"alpha"] floatValue] + [[data objectForKey:@"alpha_delta"] floatValue]  *(elapsedTime/self.duration)) * 255) forKey:_key];
+    }
+
+}
+// ------------------------------------------------------
+-(void)teardown:(SKNode*)node
 // ------------------------------------------------------
 {
     

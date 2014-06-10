@@ -103,11 +103,14 @@ MTKAction  is a custom SKAction class that allows to execute custom code before,
 
 -(void)setData:(id)data forNode:(SKNode*)node andKey:(NSString*)key;
 
-+(MTKAction*)animateProperty:(NSString*)name to:(id)targetValue withDuration:(NSTimeInterval)duration;
-+(MTKAction*)animateProperty:(NSString*)name by:(id)targetValue withDuration:(NSTimeInterval)duration;
++(MTKAction*)animateValueProperty:(NSString*)name to:(NSValue*)targetValue withDuration:(NSTimeInterval)duration;
++(MTKAction*)animateValueProperty:(NSString*)name by:(NSValue*)targetValue withDuration:(NSTimeInterval)duration;
+
++(MTKAction*)animateColorProperty:(NSString*)name to:(SKColor*)targetColor withDuration:(NSTimeInterval)duration;
+
+
 
 @end
-
 
 
 
