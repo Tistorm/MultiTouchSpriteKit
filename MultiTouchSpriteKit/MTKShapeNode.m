@@ -8,7 +8,7 @@
 
 #import "MTKShapeNode.h"
 #import "MTKUtil.h"
-
+#import "MTKTable.h"
 
 @interface MTKLayerNode (subclass)
 
@@ -41,6 +41,15 @@
 {
     MTKShapeNode* node = [[MTKShapeNode alloc] init];
     node.path =  CGPathCreateWithRoundedRect(rect, cornerWidth, cornerWidth, nil);
+    return node;
+}
+
+// ---------------------------------------------------------------------------------------------
++(instancetype)shapeWithPath: (CGPathRef) path
+// ---------------------------------------------------------------------------------------------
+{
+    MTKShapeNode* node = [[MTKShapeNode alloc] init];
+    node.path = path;
     return node;
 }
 
@@ -257,7 +266,7 @@
     {
        return [super containsPoint:p];
     }
-    return [self shapeContainsPoint:p fromNode:nil];
+    return [self shapeContainsPoint:p fromNode: [[MTKTable table] currentScene]];
  }
 
 // ------------------------------------------------------

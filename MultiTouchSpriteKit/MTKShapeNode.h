@@ -59,6 +59,7 @@ typedef NS_ENUM(NSUInteger, MTKShapeHitMode) {
 
 +(instancetype)shapeWithRoundedRect:(CGRect)rect cornerWidth:(CGFloat)cornerWidth cornerHeight:(CGFloat)cornerHeight;
 +(instancetype)shapeWithRect:(CGRect)rect;
++(instancetype)shapeWithPath: (CGPathRef) path;
 
 
 @property (SK_NONATOMIC_IOSONLY) CGPathRef path;
