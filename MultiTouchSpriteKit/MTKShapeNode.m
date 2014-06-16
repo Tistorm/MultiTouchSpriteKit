@@ -31,7 +31,20 @@
 // ------------------------------------------------------
 {
     MTKShapeNode* node = [[MTKShapeNode alloc] init];
-    node.path =  CGPathCreateWithRect(rect, nil);
+    CGPathRef path =  CGPathCreateWithRect(rect, nil);
+    node.path =   path;
+    CGPathRelease(path);
+    return node;
+}
+
+// ------------------------------------------------------
++(instancetype)shapeWithSize:(CGSize)size
+// ------------------------------------------------------
+{
+    MTKShapeNode* node = [[MTKShapeNode alloc] init];
+    CGPathRef path =  CGPathCreateWithRect(CGRectMake(0, 0, size.width, size.height), nil);
+    node.path =   path;
+    CGPathRelease(path);
     return node;
 }
 
@@ -40,9 +53,23 @@
 // ------------------------------------------------------
 {
     MTKShapeNode* node = [[MTKShapeNode alloc] init];
-    node.path =  CGPathCreateWithRoundedRect(rect, cornerWidth, cornerWidth, nil);
+    CGPathRef path = CGPathCreateWithRoundedRect(rect, cornerWidth, cornerWidth, nil);
+    node.path = path;
+    CGPathRelease(path);
     return node;
 }
+
+// ------------------------------------------------------
++(instancetype)shapeWithRoundedSize:(CGSize)size cornerWidth:(CGFloat)cornerWidth cornerHeight:(CGFloat)cornerHeight
+// ------------------------------------------------------
+{
+    MTKShapeNode* node = [[MTKShapeNode alloc] init];
+    CGPathRef path =  CGPathCreateWithRoundedRect(CGRectMake(0, 0, size.width, size.height), cornerWidth, cornerWidth, nil);
+    node.path = path;
+     CGPathRelease(path);
+    return node;
+}
+
 
 // ------------------------------------------------------
 - (instancetype)init
@@ -71,7 +98,12 @@
 -(SKColor*)strokeColor
 // ------------------------------------------------------
 {
-    return  [SKColor colorWithCGColor:self.layer.strokeColor];
+    
+    if (self.layer.strokeColor)
+    {
+        return  [SKColor colorWithCGColor:self.layer.strokeColor];
+    }
+    return nil;
 }
 
 
@@ -89,7 +121,12 @@
 -(SKColor*)fillColor
 // ------------------------------------------------------
 {
-    return  [SKColor colorWithCGColor:self.layer.fillColor];
+    if (self.layer.fillColor)
+    {
+         return  [SKColor colorWithCGColor:self.layer.fillColor];
+    }
+    return nil;
+   
 }
 
 // ------------------------------------------------------

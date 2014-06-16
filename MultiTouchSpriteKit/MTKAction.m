@@ -376,12 +376,8 @@
          _target = [_target colorUsingColorSpaceName:@"NSCalibratedRGBColorSpace"];
 #endif
        
-        
-        
-       
         [targetColor getRed:&colors[0] green:&colors[1] blue:&colors[2] alpha:&colors[3]];
         
-        NSLog(@"%f %f %f %F",colors[0],colors[1],colors[2],colors[3]);
     }
     return self;
 
@@ -396,6 +392,13 @@
     {
         CGFloat currentColor[4];
           SKColor* currentColorObject = [node valueForKeyPath:_key];
+        if (!currentColor)
+        {
+            currentColor[0] = colors[0];
+            currentColor[1] = colors[1];
+            currentColor[2] = colors[2];
+            currentColor[3] = 0;
+        }
         
 #if TARGET_OS_IPHONE
 #else
