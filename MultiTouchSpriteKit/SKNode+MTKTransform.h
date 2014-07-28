@@ -41,23 +41,23 @@ typedef NS_OPTIONS(NSInteger, MTKNodeTransformationConstraints)
     /**
      *  The transformation moves the node.
      */
-    MTKNoteMoveable = 1 << 0,
+    MTKNodeMoveable = 1 << 0,
     /**
      *  The transformation scales the node..
      */
-    MTKNoteScalabe  = 1 << 1,
+    MTKNodeScalabe  = 1 << 1,
     /**
      *  The transformation rotates the node.
      */
-    MTKNoteRotatable  = 1 << 2,
+    MTKNodeRotatable  = 1 << 2,
     /**
      *  The transformation moves, scales, and rotates the node.
      */
-    MTKNoteTransformable  = 1 << 3,
+    MTKNodeTransformable  = 1 << 3,
     /**
      *  The transformation does not do anything to the node.
      */
-    MTKNoteFixed = 1 << 5
+    MTKNodeFixed = 1 << 5
 };
 
 /**

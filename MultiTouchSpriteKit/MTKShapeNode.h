@@ -64,26 +64,26 @@ typedef NS_ENUM(NSUInteger, MTKShapeHitMode) {
 +(instancetype)shapeWithRoundedSize:(CGSize)size cornerWidth:(CGFloat)cornerWidth cornerHeight:(CGFloat)cornerHeight;
 
 
-@property (SK_NONATOMIC_IOSONLY) CGPathRef path;
+@property CGPathRef path;
 
 /**
  The color to draw the path with. (for no stroke use [SKColor clearColor]). Defaults to [SKColor whiteColor].
  */
-@property (SK_NONATOMIC_IOSONLY, retain) SKColor *strokeColor;
+@property ( strong) SKColor *strokeColor;
 /**
  The color to fill the path with. Defaults to [SKColor clearColor] (no fill).
  */
-@property (SK_NONATOMIC_IOSONLY, retain) SKColor *fillColor;
+@property (strong) SKColor *fillColor;
 
 /**
  The width used to stroke the path. Defaults value: 1.0.
  */
-@property (SK_NONATOMIC_IOSONLY) CGFloat lineWidth;
+@property CGFloat lineWidth;
 
 /**
  Add a glow to the path stroke of the specified width. Defaults to 0.0 (no glow)
  */
-@property (SK_NONATOMIC_IOSONLY) CGFloat glowWidth;
+@property CGFloat glowWidth;
 
 /* @name CAShapeLayer properties */
 
@@ -95,13 +95,13 @@ typedef NS_ENUM(NSUInteger, MTKShapeHitMode) {
  * length. strokeStart defaults to zero and strokeEnd to one. Both are
  * animatable. */
 
-@property (SK_NONATOMIC_IOSONLY) CGFloat strokeStart, strokeEnd;
+@property CGFloat strokeStart, strokeEnd;
 
 
 /* The miter limit used when stroking the path. Defaults to ten.
  * Animatable. */
 
-@property  (SK_NONATOMIC_IOSONLY) CGFloat miterLimit;
+@property  CGFloat miterLimit;
 
 /* The cap style used when stroking the path. Options are `butt', `round'
  * and `square'. Defaults to `butt'. */
@@ -116,7 +116,7 @@ typedef NS_ENUM(NSUInteger, MTKShapeHitMode) {
 /* The phase of the dashing pattern applied when creating the stroke.
  * Defaults to zero. Animatable. */
 
-@property  (SK_NONATOMIC_IOSONLY) CGFloat lineDashPhase;
+@property CGFloat lineDashPhase;
 
 /* The dash pattern (an array of NSNumbers) applied when creating the
  * stroked version of the path. Defaults to nil. */

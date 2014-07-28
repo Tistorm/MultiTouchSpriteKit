@@ -40,28 +40,28 @@
         return [number integerValue];
     }
     else
-    return MTKNoteTransformable;
+    return MTKNodeTransformable;
 }
 
-// ------------------------------------------------------
--(void)setTouchable:(BOOL)touchable
-// ------------------------------------------------------
-{
-    [self checkUserData];
-    [self.userData setObject:[NSNumber numberWithBool:touchable] forKey:@"MTKTouchable"];
-}
-
-// ------------------------------------------------------
--(BOOL)isTouchable
-// ------------------------------------------------------
-{
-    if (!self.userData)
-    {
-        return NO;
-    }
-    [self checkUserData];
-    return [[self.userData objectForKey:@"MTKTouchable"] boolValue];
-}
+//// ------------------------------------------------------
+//-(void)setTouchable:(BOOL)touchable
+//// ------------------------------------------------------
+//{
+//    [self checkUserData];
+//    [self.userData setObject:[NSNumber numberWithBool:touchable] forKey:@"MTKTouchable"];
+//}
+//
+//// ------------------------------------------------------
+//-(BOOL)isTouchable
+//// ------------------------------------------------------
+//{
+//    if (!self.userData)
+//    {
+//        return NO;
+//    }
+//    [self checkUserData];
+//    return [[self.userData objectForKey:@"MTKTouchable"] boolValue];
+//}
 
 
 // ------------------------------------------------------
@@ -178,7 +178,7 @@
     
     float relativeScaleFactor =  MTKPointDistanceBetweenPoints(firstEndPoint,secondEndPoint)/ MTKPointDistanceBetweenPoints(firstStartPoint, secondStartPoint);
     
-    if (!(self.transformationConstraints & (MTKNoteScalabe | MTKNoteTransformable)))
+    if (!(self.transformationConstraints & (MTKNodeScalabe | MTKNodeTransformable)))
     {
         relativeScaleFactor = 1.0f;
     }
@@ -216,7 +216,7 @@
     
     
     float relativeAngle = MTKPointVectorAngle(globalVector)-MTKPointVectorAngle(previousGlobalVector);
-    if (!(self.transformationConstraints & (MTKNoteRotatable | MTKNoteTransformable)))
+    if (!(self.transformationConstraints & (MTKNodeRotatable | MTKNodeTransformable)))
     {
         relativeAngle = 0.0f;
     }
