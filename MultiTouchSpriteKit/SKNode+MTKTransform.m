@@ -203,6 +203,11 @@
         {
             vScale = relativeScaleFactor;
         }
+        else
+        {
+            hScale = relativeScaleFactor;
+            vScale = relativeScaleFactor;
+        }
     }
     else
     {

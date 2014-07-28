@@ -33,14 +33,14 @@
     self = [super init];
     if (self) {
         
-       
+        
         self.sprite = [SKSpriteNode spriteNodeWithColor:color size:size];
-         [self addChild:self.sprite];
+        [self addChild:self.sprite];
         self.layer = [[CALayer alloc] init];
         //self.anchorPoint = CGPointMake(0, 0);
         self.layer.frame = CGRectMake(0, 0, size.width,size.height);
         self.layer.backgroundColor = [color CGColor];
-       
+        
         self.cgContextRef = createBitmapContextWithSize(self.sprite.size);
         
         [self updateTexture];
@@ -57,7 +57,7 @@
         self.sprite = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:CGSizeMake(1, 1)];
         self.sprite.anchorPoint = CGPointMake(0, 0);
         [self addChild:self.sprite];
-       // self.layer = [[CALayer alloc] init];
+        // self.layer = [[CALayer alloc] init];
         // self.anchorPoint = CGPointMake(0, 0);
     }
     return self;
@@ -83,7 +83,7 @@
         
         CGContextTranslateCTM(self.cgContextRef,  self.layer.position.x,  self.layer.position.y);
     }
-   self.sprite.anchorPoint = CGPointMake((self.layer.position.x + self.anchorPoint.x * self.layer.frame.size.width ) / self.sprite.size.width, (self.layer.position.y + self.anchorPoint.y * self.layer.frame.size.height)  / self.sprite.size.height);
+    self.sprite.anchorPoint = CGPointMake((self.layer.position.x + self.anchorPoint.x * self.layer.frame.size.width ) / self.sprite.size.width, (self.layer.position.y + self.anchorPoint.y * self.layer.frame.size.height)  / self.sprite.size.height);
     
     
     float clearAreaOffset = self.layer.shadowRadius * 4;
@@ -124,7 +124,7 @@
         CGPoint returnPoint = CGPointMake(0, 0);
         if (self.layer.shadowOffset.width <= self.layer.shadowRadius * 2)
         {
-         returnPoint = CGPointMake(  self.layer.shadowRadius * 2 - self.shadowOffset.width ,  self.layer.shadowRadius * 2);
+            returnPoint = CGPointMake(  self.layer.shadowRadius * 2 - self.shadowOffset.width ,  self.layer.shadowRadius * 2);
         }
         else
         {
@@ -138,8 +138,8 @@
         {
             returnPoint = CGPointMake( returnPoint.x ,  0);
         }
-    //Nur wenn offset negative ist..
-    
+        //Nur wenn offset negative ist..
+        
         return returnPoint;
     }
 }
@@ -170,7 +170,7 @@
         }
         return returnSize;
     }
-   
+    
 }
 
 // ------------------------------------------------------
