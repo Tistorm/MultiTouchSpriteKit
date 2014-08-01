@@ -188,6 +188,18 @@ CG_INLINE CGFloat MTKPointLength(CGPoint vector)
     return sqrtf(vector.x * vector.x + vector.y * vector.y);
     
 }
+/**
+ *  Returns the square length of a CGPoint which is interpreted as a vector
+ *
+ *  @param vector The Vector as CGPoint.
+ *
+ *  @return The square length of the Vector as CGFloat.
+ */
+CG_INLINE CGFloat MTKPointSquareLength(CGPoint vector)
+{
+    return (vector.x * vector.x + vector.y * vector.y);
+    
+}
 
 /**
  *  Returns a normalized version of a vector
@@ -252,6 +264,13 @@ CG_INLINE CGFloat MTKPointDistanceBetweenPoints(CGPoint p1,CGPoint p2)
 {
      return MTKPointLength(MTKPointVectorBetweenPoints(p1, p2));
 }
+
+CG_INLINE CGFloat MTKPointSquareDistance(CGPoint p1,CGPoint p2)
+{
+    return MTKPointSquareLength(MTKPointVectorBetweenPoints(p1, p2));
+}
+
+
 
 
 CG_INLINE CGFloat MTKPointDotProduct(CGPoint v1, CGPoint v2)
@@ -645,6 +664,47 @@ CG_INLINE CGFloat MTKUtilRadiantToDegree(CGFloat radians)
     return radians * (180 / M_PI);
 }
 
+
+typedef struct _MTKRange {
+    CGFloat lowerValue;
+    CGFloat upperValue;
+} MTKRange;
+
+
+CG_INLINE MTKRange MTKRangeMake(CGFloat lowerValue,CGFloat upperValue) {
+    MTKRange r;
+    r.lowerValue = lowerValue;
+    r.upperValue = upperValue;
+    return r;
+}
+
+#pragma mark - 
+#pragma mark MTKRange
+
+CG_INLINE BOOL MTKRangeContains(float value,MTKRange range)
+{
+      return (!(value < range.lowerValue) && !(value > range.upperValue)) ? YES : NO;
+}
+
+CG_INLINE BOOL MTKRangeOverlap(MTKRange range1,MTKRange range2)
+{
+    if (MTKRangeContains(range1.lowerValue, range2) && MTKRangeContains(range1.lowerValue, range2))
+    {
+        return YES;
+    }
+    else if (MTKRangeContains(range1.upperValue, range2) && MTKRangeContains(range1.upperValue, range2))
+    {
+        return YES;
+    }
+    else if(range1.lowerValue < range2.lowerValue && range1.upperValue > range2.upperValue)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
 
 
 #pragma mark -
