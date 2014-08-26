@@ -569,7 +569,7 @@ CG_INLINE CGFloat MTKSizeAngleBetweenVectors(CGSize v1, CGSize v2)
     }
 }
 
-CG_INLINE CGPoint MTKSizeCenter(CGSize  size)
+CG_INLINE CGPoint MTKPointCenterOfSize(CGSize  size)
 {
     return CGPointMake(size.width/2.0, size.height/2.0);
 }
@@ -665,6 +665,12 @@ CG_INLINE CGFloat MTKUtilRadiantToDegree(CGFloat radians)
 }
 
 
+
+#pragma mark -
+#pragma mark MTKRange
+// MTKRange definition
+// =================================================================================================================
+
 typedef struct _MTKRange {
     CGFloat lowerValue;
     CGFloat upperValue;
@@ -678,8 +684,6 @@ CG_INLINE MTKRange MTKRangeMake(CGFloat lowerValue,CGFloat upperValue) {
     return r;
 }
 
-#pragma mark - 
-#pragma mark MTKRange
 
 CG_INLINE BOOL MTKRangeContains(float value,MTKRange range)
 {
@@ -705,6 +709,7 @@ CG_INLINE BOOL MTKRangeOverlap(MTKRange range1,MTKRange range2)
         return NO;
     }
 }
+
 
 
 #pragma mark -

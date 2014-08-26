@@ -67,6 +67,9 @@
 @end
 
 
+
+#pragma mark MTKAction
+#pragma mark -
 // =================================================================================================================
 
 @implementation MTKAction
@@ -207,6 +210,9 @@
 @end
 
 
+
+#pragma mark MTKPropertyAction
+#pragma mark -
 // =================================================================================================================
 @implementation MTKPropertyAction
 // =================================================================================================================
@@ -350,7 +356,8 @@
 
 
 
-
+#pragma mark MTKColorAction
+#pragma mark -
 // =================================================================================================================
 @implementation MTKColorAction
 // =================================================================================================================
@@ -361,8 +368,9 @@
     CGFloat colors[4];
 }
 
-
+// ------------------------------------------------------
 -(instancetype)initWithWithTargetColor:(SKColor*)targetColor asAbsoluteTarget:(BOOL)absoluteTarget forVariable:(NSString*)variableName withDuration:(NSTimeInterval)duration
+// ------------------------------------------------------
 {
     self = [super initWithDuration:duration];
     if (self)
@@ -376,7 +384,7 @@
          _target = [_target colorUsingColorSpaceName:@"NSCalibratedRGBColorSpace"];
 #endif
        
-        [targetColor getRed:&colors[0] green:&colors[1] blue:&colors[2] alpha:&colors[3]];
+        [_target getRed:&colors[0] green:&colors[1] blue:&colors[2] alpha:&colors[3]];
         
     }
     return self;
@@ -456,6 +464,9 @@
 
 
 
+
+#pragma mark MTKTransformationAction
+#pragma mark -
 // =================================================================================================================
 @implementation MTKTransformationAction
 // =================================================================================================================
@@ -467,7 +478,6 @@
     SKNode*     _endNode;
     
 }
-#pragma mark -
 #pragma mark public methods
 
 // ------------------------------------------------------
@@ -491,7 +501,6 @@
     return [[MTKTransformationAction alloc ]initTransformationActionFromPoints:startPoints inCoordinatesOfNode:nil toPoints:endPoints inCoordinatesOfNode:nil andDuration:sec];
 }
 
-#pragma mark -
 #pragma mark privat methods
 
 // ------------------------------------------------------
